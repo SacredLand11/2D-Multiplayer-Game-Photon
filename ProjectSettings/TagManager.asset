@@ -20,6 +20,10 @@ TagManager:
   - PowerBar
   - Wood
   - Award
+  - ServerInfo
+  - SaveNameButton
+  - RandomEntranceButton
+  - BecomeAHostButton
   layers:
   - Default
   - TransparentFX

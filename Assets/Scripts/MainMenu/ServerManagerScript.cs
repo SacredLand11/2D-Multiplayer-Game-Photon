@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
@@ -8,17 +9,36 @@ using TMPro;
 
 public class ServerManagerScript : MonoBehaviourPunCallbacks
 {
+    GameObject serverInfo;
+    GameObject SaveNameButton;
+    GameObject RandomEntranceButton;
+    GameObject BecomeAHostButton;
     void Start()
     {
+        serverInfo = GameObject.FindWithTag("ServerInfo");
+        SaveNameButton = GameObject.FindWithTag("SaveNameButton");
+        RandomEntranceButton = GameObject.FindWithTag("RandomEntranceButton");
+        BecomeAHostButton = GameObject.FindWithTag("BecomeAHostButton");
         PhotonNetwork.ConnectUsingSettings();
         DontDestroyOnLoad(gameObject);
     }
     public override void OnConnectedToMaster()
     {
+        serverInfo.GetComponent<Text>().text = "Connected To Server";
         PhotonNetwork.JoinLobby();
     }
     public override void OnJoinedLobby()
     {
+        serverInfo.GetComponent<Text>().text = "Connected To Lobby";
+        if (!PlayerPrefs.HasKey("PlayerIDExist"))
+        {
+            SaveNameButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            RandomEntranceButton.GetComponent<Button>().interactable = true;
+            BecomeAHostButton.GetComponent<Button>().interactable = true;
+        }
     }
     public void EnterRandomly()
     {

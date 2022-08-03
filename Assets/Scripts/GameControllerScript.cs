@@ -16,12 +16,13 @@ public class GameControllerScript : MonoBehaviour
     bool isStart;
     int limit;
     float waitingTime;
+    public GameObject[] dots;
     private void Start()
     {
         pw = GetComponent<PhotonView>();
         isStart = false;
         limit = 4;
-        waitingTime = 5f;
+        waitingTime = 15f;
     }
     IEnumerator StartCreateTheAwards()
     {
@@ -33,6 +34,8 @@ public class GameControllerScript : MonoBehaviour
                 isStart = false;
             }
             yield return new WaitForSeconds(waitingTime);
+            int currentvalue = Random.Range(0, 6);
+            PhotonNetwork.Instantiate("Award", dots[currentvalue].transform.position, dots[currentvalue].transform.rotation, 0, null);
             occuringNumber++;
         }
     }

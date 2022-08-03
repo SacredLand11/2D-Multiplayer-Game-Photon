@@ -9753,6 +9753,8 @@ GameObject:
   - component: {fileID: 5834638294166227962}
   - component: {fileID: 5834638294166227963}
   - component: {fileID: 5834638294166227960}
+  - component: {fileID: 7754498717775342717}
+  - component: {fileID: -8879526067311552512}
   m_Layer: 0
   m_Name: Award
   m_TagString: Award
@@ -9931,3 +9933,27 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &7754498717775342717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5834638294166227961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69c51087eccd81243804e0a1ba75bf85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8879526067311552512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5834638294166227961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69c51087eccd81243804e0a1ba75bf85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
