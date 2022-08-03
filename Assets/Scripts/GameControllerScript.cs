@@ -13,9 +13,37 @@ public class GameControllerScript : MonoBehaviour
     float Player2_Health = 100;
 
     PhotonView pw;
+    bool isStart;
+    int limit;
+    float waitingTime;
     private void Start()
     {
         pw = GetComponent<PhotonView>();
+        isStart = false;
+        limit = 4;
+        waitingTime = 5f;
+    }
+    IEnumerator StartCreateTheAwards()
+    {
+        int occuringNumber = 0;
+        while (true && isStart)
+        {
+            if(limit == occuringNumber)
+            {
+                isStart = false;
+            }
+            yield return new WaitForSeconds(waitingTime);
+            occuringNumber++;
+        }
+    }
+    [PunRPC]
+    public void StartToCreateAwardBoxes()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isStart = true;
+            StartCoroutine(StartCreateTheAwards());
+        }
     }
     [PunRPC]
     public void ImpactHit(int value, float impactPower)
@@ -23,12 +51,49 @@ public class GameControllerScript : MonoBehaviour
         switch (value)
         {
             case 1:
-                Player1_Health -= impactPower;
-                Player1_Health_Bar.fillAmount = Player1_Health / 100;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Player1_Health -= impactPower;
+                    Player1_Health_Bar.fillAmount = Player1_Health / 100;
+                }
                 break;
             case 2:
-                Player2_Health -= impactPower;
-                Player2_Health_Bar.fillAmount = Player2_Health / 100;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Player2_Health -= impactPower;
+                    Player2_Health_Bar.fillAmount = Player2_Health / 100;
+                }
+                break;
+        }
+    }
+    [PunRPC]
+    public void IncreaseTheHealth(int PlayerNo)
+    {
+        switch (PlayerNo)
+        {
+            case 1:
+                Player1_Health += 30;
+                if (Player1_Health >= 100)
+                {
+                    Player1_Health = 100;
+                    Player1_Health_Bar.fillAmount = 1;
+                }
+                else
+                {
+                    Player1_Health_Bar.fillAmount = Player1_Health / 100;
+                }
+                break;
+            case 2:
+                Player2_Health += 30;
+                if (Player2_Health >= 100)
+                {
+                    Player2_Health = 100;
+                    Player2_Health_Bar.fillAmount = 1;
+                }
+                else
+                {
+                    Player2_Health_Bar.fillAmount = Player2_Health / 100;
+                }
                 break;
         }
     }

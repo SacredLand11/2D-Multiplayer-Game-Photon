@@ -6,6 +6,7 @@ using Photon.Pun;
 public class CannonballScript : MonoBehaviour
 {
     float impactPower;
+    int whoIsThePlayer;
 
     GameObject gameController;
     GameObject player;
@@ -22,6 +23,14 @@ public class CannonballScript : MonoBehaviour
     public void TagTransfer(string arrivaltag)
     {
         player = GameObject.FindWithTag(arrivaltag); 
+        if(arrivaltag == "Player1")
+        {
+            whoIsThePlayer = 1;
+        }
+        else
+        {
+            whoIsThePlayer = 2;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -61,11 +70,34 @@ public class CannonballScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             player.GetComponent<PlayerScript>().FillAmountMotion();
+            PhotonNetwork.Instantiate("SmokePuffCollisionEffect", transform.position, transform.rotation, 0, null);
+            cannonBallDestroyAudio.Play();
             if (pw.IsMine)
             {
-                PhotonNetwork.Instantiate("SmokePuffCollisionEffect", transform.position, transform.rotation, 0, null);
-                cannonBallDestroyAudio.Play();
                 PhotonNetwork.Destroy(gameObject);
+            }
+        }
+        if (collision.gameObject.CompareTag("Wood"))
+        {
+            player.GetComponent<PlayerScript>().FillAmountMotion();
+            PhotonNetwork.Instantiate("SmokePuffCollisionEffect", transform.position, transform.rotation, 0, null);
+            cannonBallDestroyAudio.Play();
+            if (pw.IsMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
+        if (collision.gameObject.CompareTag("Award"))
+        {
+            gameController.GetComponent<PhotonView>().RPC("IncreaseTheHealth", RpcTarget.All, whoIsThePlayer);
+            PhotonNetwork.Destroy(collision.transform.gameObject);
+            player.GetComponent<PlayerScript>().FillAmountMotion();
+            PhotonNetwork.Instantiate("SmokePuffCollisionEffect", transform.position, transform.rotation, 0, null);
+            cannonBallDestroyAudio.Play();
+            if (pw.IsMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+
             }
         }
     }

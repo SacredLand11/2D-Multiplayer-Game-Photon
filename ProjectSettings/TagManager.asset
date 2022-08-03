@@ -18,6 +18,8 @@ TagManager:
   - PlayerName1
   - PlayerName2
   - PowerBar
+  - Wood
+  - Award
   layers:
   - Default
   - TransparentFX

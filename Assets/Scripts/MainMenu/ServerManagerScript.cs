@@ -37,13 +37,10 @@ public class ServerManagerScript : MonoBehaviourPunCallbacks
         GameObject myObject = PhotonNetwork.Instantiate("Player",Vector3.zero,Quaternion.identity,0,null);
         myObject.GetComponent<PhotonView>().Owner.NickName = PlayerPrefs.GetString("PlayerIDExist");
 
-        if(PhotonNetwork.PlayerList.Length == 1)
-        {
-            myObject.gameObject.tag = "Player1";
-        }
-        else
+        if(PhotonNetwork.PlayerList.Length == 2)
         {
             myObject.gameObject.tag = "Player2";
+            GameObject.FindWithTag("GameController").gameObject.GetComponent<PhotonView>().RPC("StartToCreateAwardBoxes", RpcTarget.All);
         }
     }
     public override void OnLeftRoom()
